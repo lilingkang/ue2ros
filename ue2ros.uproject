@@ -15,6 +15,19 @@
 			"Name": "MqttUtilities",
 			"Enabled": true,
 			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/content/6371e7a3824549bba2411d0f1baa7ae0"
+		},
+		{
+			"Name": "JsonLibrary",
+			"Enabled": false
+		},
+		{
+			"Name": "WebUI",
+			"Enabled": true
+		},
+		{
+			"Name": "VaRest",
+			"Enabled": true,
+			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/content/e47be161e7a24e928560290abd5dcc4f"
 		}
 	]
 }
