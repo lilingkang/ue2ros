@@ -13,7 +13,7 @@
  */
 DECLARE_DYNAMIC_DELEGATE_OneParam(FOnReceiveSurrogateModelDataDelegate, FString, Data);
 
-UCLASS()
+UCLASS(BlueprintType)
 class UE2ROS_API UMySocketClient : public UObject
 {
 	GENERATED_BODY()

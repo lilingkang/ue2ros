@@ -87,7 +87,7 @@ TArray<FLinearColor> UMyCustomFunction::CalVertexColorFromStress(TArray<float> S
 	UKismetMathLibrary::MaxOfFloatArray(Stress, MaxIndex, MaxStress);
 	float MinStress = 0;
 	int32 MinIndex = 0;
-	UKismetMathLibrary::MinOfFloatArray(Stress, MinIndex, MinStress);
+	// UKismetMathLibrary::MinOfFloatArray(Stress, MinIndex, MinStress);
 	for (int i = 0; i < Stress.Num(); i++)
 	{
 		float StressValue = Stress[i];
