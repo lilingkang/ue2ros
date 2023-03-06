@@ -9,14 +9,17 @@
 // #endif
 
 #include "CoreMinimal.h"
-#include "UObject/Object.h"
+#include "Kismet/BlueprintFunctionLibrary.h"
+#include "MySocketClient.h"
+
 #include "MyCustomFunction.generated.h"
 
 /**
  * 
  */
+
 UCLASS()
-class UE2ROS_API UMyCustomFunction : public UObject
+class UE2ROS_API UMyCustomFunction : public UBlueprintFunctionLibrary
 {
 	GENERATED_BODY()
 public:
@@ -32,14 +35,12 @@ public:
 	UFUNCTION(BlueprintCallable)
 	static TArray<uint8> IntegerArrayToByteArray(TArray<int32> IntegerArray);
 
-	// UFUNCTION(BlueprintCallable)
-	// void OpenWebCamera(TArray<FString> UrlArray);
-	//
-	// UFUNCTION(BlueprintCallable)
-	// void OpenLocalCamera(TArray<int32> ID);
-	//
-	// UFUNCTION(BlueprintCallable)
-	// void CloseCamera();
+	UFUNCTION(BlueprintCallable)
+    static UMySocketClient* SetOnSurrogateModelHandler(const FOnReceiveSurrogateModelDataDelegate& onReceiveSurrogateModelData);
 
-	
+	UFUNCTION(BlueprintCallable)
+	static void SendDataToSurrogateModel(UMySocketClient* MyClient, float Input);
+
+	UFUNCTION(BlueprintCallable)
+	static TArray<FLinearColor> CalVertexColorFromStress(TArray<float> Stress);
 };
