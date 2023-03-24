@@ -82,9 +82,9 @@ TArray<FLinearColor> UMyCustomFunction::CalVertexColorFromStress(TArray<float> S
 {
 	TArray<FLinearColor> VertexColor;
 	VertexColor.Empty();
-	float MaxStress = 15;
-	int32 MaxIndex = 0;
-	UKismetMathLibrary::MaxOfFloatArray(Stress, MaxIndex, MaxStress);
+	float MaxStress = 8;
+	// int32 MaxIndex = 0;
+	// UKismetMathLibrary::MaxOfFloatArray(Stress, MaxIndex, MaxStress);
 	float MinStress = 0;
 	// int32 MinIndex = 0;
 	// UKismetMathLibrary::MinOfFloatArray(Stress, MinIndex, MinStress);
@@ -92,12 +92,22 @@ TArray<FLinearColor> UMyCustomFunction::CalVertexColorFromStress(TArray<float> S
 	{
 		float StressValue = Stress[i];
 		float H = 0;
-		H = (MaxStress - StressValue) / (MaxStress - MinStress) * 240;
-		if (StressValue < 0) {
-		    VertexColor.Add(UKismetMathLibrary::HSVToRGB(H, 1, 0, 1));
-		} else {
-			VertexColor.Add(UKismetMathLibrary::HSVToRGB(H, 1, 0.6, 1));
+		if (StressValue < MinStress)
+		{
+			StressValue = MinStress;
 		}
+		if (StressValue > MaxStress)
+		{
+			StressValue = MaxStress;
+		}
+		H = (MaxStress - StressValue) / (MaxStress - MinStress) * 240;
+		// if (StressValue < 0) {
+		//     VertexColor.Add(UKismetMathLibrary::HSVToRGB(H, 1, 0, 1));
+		// } else {
+		// 	VertexColor.Add(UKismetMathLibrary::HSVToRGB(H, 1, 0.6, 1));
+		// }
+		VertexColor.Add(UKismetMathLibrary::HSVToRGB(H, 1, 1, 1));
+		
 	}
 	return VertexColor;
 }

@@ -74,11 +74,11 @@ bool UMySocketClient::ThreadEnd()
 		delete m_ReceiveThread;
 		// m_ReceiveThread = nullptr;
 	}
-	// if (Server)
-	// {
-		// Server->Close();
-		// ISocketSubsystem::Get(PLATFORM_SOCKETSUBSYSTEM)->DestroySocket(Server);
+	if (Server)
+	{
+		Server->Close();
+		ISocketSubsystem::Get(PLATFORM_SOCKETSUBSYSTEM)->DestroySocket(Server);
 		// Server = nullptr;
-	// }
+	}
 	return false;
 }
