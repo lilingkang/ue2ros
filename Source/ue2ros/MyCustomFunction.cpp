@@ -92,21 +92,22 @@ TArray<FLinearColor> UMyCustomFunction::CalVertexColorFromStress(TArray<float> S
 	{
 		float StressValue = Stress[i];
 		float H = 0;
-		if (StressValue < MinStress)
-		{
-			StressValue = MinStress;
-		}
+		// if (StressValue < MinStress)
+		// {
+		// 	StressValue = MinStress;
+		// }
 		if (StressValue > MaxStress)
 		{
 			StressValue = MaxStress;
 		}
-		H = (MaxStress - StressValue) / (MaxStress - MinStress) * 240;
-		// if (StressValue < 0) {
-		//     VertexColor.Add(UKismetMathLibrary::HSVToRGB(H, 1, 0, 1));
-		// } else {
-		// 	VertexColor.Add(UKismetMathLibrary::HSVToRGB(H, 1, 0.6, 1));
-		// }
-		VertexColor.Add(UKismetMathLibrary::HSVToRGB(H, 1, 1, 1));
+		float level = (MaxStress - StressValue) * 10 / (MaxStress - MinStress);
+		H = level / 10.0 * 240;
+		if (StressValue < 0) {
+		    VertexColor.Add(UKismetMathLibrary::HSVToRGB(H, 1, 0, 1));
+		} else {
+			VertexColor.Add(UKismetMathLibrary::HSVToRGB(H, 1, 1, 1));
+		}
+		// VertexColor.Add(UKismetMathLibrary::HSVToRGB(H, 1, 1, 1));
 		
 	}
 	return VertexColor;
