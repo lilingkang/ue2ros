@@ -54,12 +54,13 @@ TArray<uint8> UMyCustomFunction::IntegerArrayToByteArray(TArray<int32> IntegerAr
 	return ByteArray;
 }
 
-UMySocketClient* UMyCustomFunction::SetOnSurrogateModelHandler(const FOnReceiveSurrogateModelDataDelegate& onReceiveSurrogateModelData)
+UMySocketClient* UMyCustomFunction::SetOnSurrogateModelHandler(
+	const FOnReceiveSurrogateModelDataDelegate& onReceiveSurrogateModelData)
 {
 	// 通过socket通信，向代理模型发送工况数据，返回一个float数组
 	UMySocketClient* MyClient = NewObject<UMySocketClient>();
 	MyClient->OnReceiveSurrogateModelData = onReceiveSurrogateModelData;
-	if(MyClient->CreateSocketClient("127.0.0.1", 8000))
+	if (MyClient->CreateSocketClient("127.0.0.1", 8000))
 	{
 		MyClient->ReceiveData();
 	}
@@ -68,7 +69,7 @@ UMySocketClient* UMyCustomFunction::SetOnSurrogateModelHandler(const FOnReceiveS
 
 void UMyCustomFunction::SendDataToSurrogateModel(UMySocketClient* MyClient, float Input)
 {
-	if(MyClient->Server->GetConnectionState() == ESocketConnectionState::SCS_Connected)
+	if (MyClient->Server->GetConnectionState() == ESocketConnectionState::SCS_Connected)
 	{
 		MyClient->SendData(FString("fea").Append(FString::SanitizeFloat(Input)));
 	}
@@ -78,37 +79,41 @@ void UMyCustomFunction::SendDataToSurrogateModel(UMySocketClient* MyClient, floa
 	}
 }
 
-TArray<FLinearColor> UMyCustomFunction::CalVertexColorFromStress(TArray<float> Stress)
+
+TArray<FLinearColor> UMyCustomFunction::CalVertexColorFromStress(TArray<float> Stress, float MaxStress, float MinStress,
+                                                                 float scale)
 {
 	TArray<FLinearColor> VertexColor;
 	VertexColor.Empty();
-	float MaxStress = 8;
+	// float MaxStress = 8;
 	// int32 MaxIndex = 0;
 	// UKismetMathLibrary::MaxOfFloatArray(Stress, MaxIndex, MaxStress);
-	float MinStress = 0;
+	// float MinStress = 0;
 	// int32 MinIndex = 0;
 	// UKismetMathLibrary::MinOfFloatArray(Stress, MinIndex, MinStress);
 	for (int i = 0; i < Stress.Num(); i++)
 	{
-		float StressValue = Stress[i];
+		float StressValue = Stress[i] * scale;
 		float H = 0;
-		// if (StressValue < MinStress)
-		// {
-		// 	StressValue = MinStress;
-		// }
+		if (StressValue < MinStress)
+		{
+			StressValue = MinStress;
+		}
 		if (StressValue > MaxStress)
 		{
 			StressValue = MaxStress;
 		}
 		float level = (MaxStress - StressValue) * 10 / (MaxStress - MinStress);
 		H = level / 10.0 * 240;
-		if (StressValue < 0) {
-		    VertexColor.Add(UKismetMathLibrary::HSVToRGB(H, 1, 0, 1));
-		} else {
+		if (StressValue < 0)
+		{
+			VertexColor.Add(UKismetMathLibrary::HSVToRGB(H, 1, 0, 1));
+		}
+		else
+		{
 			VertexColor.Add(UKismetMathLibrary::HSVToRGB(H, 1, 1, 1));
 		}
 		// VertexColor.Add(UKismetMathLibrary::HSVToRGB(H, 1, 1, 1));
-		
 	}
 	return VertexColor;
 }

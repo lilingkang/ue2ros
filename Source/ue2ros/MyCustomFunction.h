@@ -22,6 +22,7 @@ UCLASS()
 class UE2ROS_API UMyCustomFunction : public UBlueprintFunctionLibrary
 {
 	GENERATED_BODY()
+
 public:
 	// UFUNCTION(BlueprintCallable)
 	// static UTexture2D* GenerateTextureFunction(
@@ -31,16 +32,19 @@ public:
 	// 	int32 TextureHeight = 512,
 	// 	int32 TextureWidth = 512
 	// );
-	
+
 	UFUNCTION(BlueprintCallable)
 	static TArray<uint8> IntegerArrayToByteArray(TArray<int32> IntegerArray);
 
 	UFUNCTION(BlueprintCallable)
-    static UMySocketClient* SetOnSurrogateModelHandler(const FOnReceiveSurrogateModelDataDelegate& onReceiveSurrogateModelData);
+	static UMySocketClient* SetOnSurrogateModelHandler(
+		const FOnReceiveSurrogateModelDataDelegate& onReceiveSurrogateModelData);
 
 	UFUNCTION(BlueprintCallable)
 	static void SendDataToSurrogateModel(UMySocketClient* MyClient, float Input);
 
 	UFUNCTION(BlueprintCallable)
-	static TArray<FLinearColor> CalVertexColorFromStress(TArray<float> Stress);
+	static TArray<FLinearColor> CalVertexColorFromStress(TArray<float> Stress, float MaxStress = 8.0,
+	                                                     float MinStress = 0.0,
+	                                                     float scale = 1.0);
 };
